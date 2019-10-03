@@ -8,6 +8,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#f6f6f6",
     width: "100%",
     height: "100%",
+    color: "#000000",
   },
   bookCover: {
     maxHeight: "150px",
@@ -26,26 +27,28 @@ const BookDetail = props => {
 
   return (
     <Grid item xs={6}>
-      <Card className={classes.bookBox}>
-        <Grid container spacing={3}>
-          <Grid item xs={3} className={classes.imgContainer}>
-            <img src={book.imgURL} className={classes.bookCover} alt="" />
+      <a href={"/#/books/" + book.id} style={{textDecoration: "none"}}>
+        <Card className={classes.bookBox}>
+          <Grid container spacing={3}>
+            <Grid item xs={3} className={classes.imgContainer}>
+              <img src={book.imgURL} className={classes.bookCover} alt="" />
+            </Grid>
+            <Grid item container xs={9}>
+              <Grid item xs={12}>
+                <h3>{book.title}</h3>
+              </Grid>
+              <Grid item xs={6}>
+                <p><strong>Author: </strong>{book.author.name}</p>
+                <p><strong>Genre: </strong>{book.genre}</p>
+                {book.read || <p>[Unread]</p>}
+              </Grid>
+              <Grid item xs={6}>
+                {book.series && <p><strong>Series: </strong>{book.series}</p>}
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item container xs={9}>
-            <Grid item xs={12}>
-              <h3>{book.title}</h3>
-            </Grid>
-            <Grid item xs={6}>
-              <p><strong>Author: </strong>{book.author.name}</p>
-              <p><strong>Genre: </strong>{book.genre}</p>
-              {book.read || <p>[Unread]</p>}
-            </Grid>
-            <Grid item xs={6}>
-              {book.series && <p><strong>Series: </strong>{book.series}</p>}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Card>
+        </Card>
+      </a>
     </Grid>
   )
 };
