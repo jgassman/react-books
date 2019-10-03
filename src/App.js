@@ -4,6 +4,9 @@ import { HashRouter, Route } from "react-router-dom";
 
 import { AppHeader, AppFooter } from './components/AppHeader';
 import Books from './components/Books';
+import BookDetail from './components/BookDetail';
+import Authors from './components/Authors';
+import AuthorDetail from './components/AuthorDetail';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,6 +28,9 @@ function App() {
       <br />
       <HashRouter>
         <Route path="/books" exact render={() => <Books />} />
+        <Route path="/books/:book_id" exact render={props => <BookDetail {...props} />} />
+        <Route path="/authors" exact render={() => <Authors />} />
+        <Route path="/authors/:author_id" exact render={props => <AuthorDetail {...props} />} />
       </HashRouter>
       <AppFooter />
     </div>
