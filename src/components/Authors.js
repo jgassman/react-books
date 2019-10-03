@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(() => ({
   authorBox: {
@@ -41,10 +42,28 @@ const Authors = () => {
     {id: 5, name: "Marissa Meyer", bookCount: 5, genreCount: 3},
     {id: 6, name: "C.S. Lewis", bookCount: 10, genreCount: 4},
   ]);
+  const [filteredAuthors, setFilteredAuthors] = React.useState(authors);
+
+  const search = e => {
+    if (e.target.value) {
+      setFilteredAuthors(authors.filter(author => author.name.toLowerCase().includes(e.target.value.toLowerCase())));
+    } else {
+      setFilteredAuthors(authors);
+    }
+  };
 
   return (
     <Grid container spacing={3} style={{margin: 0, width: '100%'}}>
-      {authors.map(author => <AuthorDetail author={author} />)}
+      <Grid item xs={12}>
+        <TextField
+          label="Search"
+          onChange={search}
+          margin="normal"
+          variant="outlined"
+          style={{width: "50%"}}
+        />
+      </Grid>
+      {filteredAuthors.map(author => <AuthorDetail author={author} />)}
     </Grid>
   );
 };

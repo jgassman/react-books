@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(() => ({
   bookBox: {
@@ -61,10 +62,28 @@ const Books = () => {
     {id: 3, title: "The Two Towers", author: {id: 1, name: "J.R.R. Tolkien"}, genre: "Fantasy", series: "The Lord of the Rings", imgURL: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1300597697l/601135.jpg"},
     {id: 4, title: "The Fellowship of the Ring", author: {id: 1, name: "J.R.R. Tolkien"}, genre: "Fantasy", series: "The Lord of the Rings", imgURL: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1176174220l/601134.jpg"},
   ]);
+  const [filteredBooks, setFilteredBooks] = React.useState(books);
+
+  const search = e => {
+    if (e.target.value) {
+      setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(e.target.value.toLowerCase())));
+    } else {
+      setFilteredBooks(books);
+    }
+  };
 
   return (
     <Grid container spacing={3} style={{margin: 0, width: '100%'}}>
-      {books.map(book => <BookDetail book={book} />)}
+      <Grid item xs={12}>
+        <TextField
+          label="Search"
+          onChange={search}
+          margin="normal"
+          variant="outlined"
+          style={{width: "50%"}}
+        />
+      </Grid>
+      {filteredBooks.map(book => <BookDetail book={book} />)}
     </Grid>
   );
 };
