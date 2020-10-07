@@ -50,32 +50,30 @@ const BookDetail = ({ book }) => {
                         <Grid item xs={12} md={3} className={classes.imgContainer}>
                             <img src={book.imgURL} className={classes.bookCover} alt="" />
                         </Grid>
-                        <Hidden only={['xs', 'sm']}>
-                            <Grid item container md={9}>
-                                <Grid item xs={12}>
-                                    <h3>{book.title}</h3>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <p>
-                                        <strong>Author: </strong>
-                                        {book.author.name}
-                                    </p>
-                                    <p>
-                                        <strong>Genre: </strong>
-                                        {book.genre}
-                                    </p>
-                                    {book.read || <p>[Unread]</p>}
-                                </Grid>
-                                <Grid item xs={6}>
-                                    {book.series && (
-                                        <p>
-                                            <strong>Series: </strong>
-                                            {book.series}
-                                        </p>
-                                    )}
-                                </Grid>
+                        <Grid item container md={9}>
+                            <Grid item xs={12}>
+                                <h3>{book.title}</h3>
                             </Grid>
-                        </Hidden>
+                            <Grid item xs={6}>
+                                <p>
+                                    <strong>Author: </strong>
+                                    {book.author.name}
+                                </p>
+                                <p>
+                                    <strong>Genre: </strong>
+                                    {book.genre}
+                                </p>
+                                {book.read || <p>[Unread]</p>}
+                            </Grid>
+                            <Grid item xs={6}>
+                                {book.series && (
+                                    <p>
+                                        <strong>Series: </strong>
+                                        {book.series}
+                                    </p>
+                                )}
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Card>
             </a>
@@ -162,18 +160,20 @@ const Books = () => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={onlyCovers}
-                                onChange={handleCoverChange}
-                                color="primary"
-                                name="onlyCovers"
-                                inputProps={{ 'aria-label': 'primary checkbox' }}
-                            />
-                        }
-                        label="Show Covers Only"
-                    />
+                    <Hidden only={['xs', 'sm']}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={onlyCovers}
+                                    onChange={handleCoverChange}
+                                    color="primary"
+                                    name="onlyCovers"
+                                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                            }
+                            label="Show Covers Only"
+                        />
+                    </Hidden>
                 </Grid>
             </Grid>
             {filteredBooks.map((book) => (onlyCovers ? <BookCover book={book} /> : <BookDetail book={book} />))}
