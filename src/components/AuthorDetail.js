@@ -33,13 +33,13 @@ const AuthorDetail = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container spacing={3}>
-          {books.map(book => 
-            <Grid item xs={1} className={classes.imgContainer}>
-              <a href={"/#/books/" + book.id}>
+          {books.map((book) => (
+            <Grid key={book.id} item xs={1} className={classes.imgContainer}>
+              <a href={'/#/books/' + book.id}>
                 <img src={book.imgURL} className={classes.bookCover} alt="" />
               </a>
             </Grid>
-          )}
+          ))}
         </Grid>
       </Grid>
     </Grid>
