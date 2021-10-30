@@ -176,7 +176,13 @@ const Books = () => {
                     </Hidden>
                 </Grid>
             </Grid>
-            {filteredBooks.map((book) => (onlyCovers ? <BookCover book={book} /> : <BookDetail book={book} />))}
+      {filteredBooks.map((book) =>
+        onlyCovers ? (
+          <BookCover key={book.id} book={book} />
+        ) : (
+          <BookDetail key={book.id} book={book} />
+        )
+      )}
         </Grid>
     );
 };
