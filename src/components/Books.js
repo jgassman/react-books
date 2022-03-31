@@ -39,7 +39,7 @@ const BookCover = ({ book }) => {
     <Grid container item xs={4} sm={2} md={1}>
       <a href={'/#/books/' + book.id} style={{ textDecoration: 'none' }}>
         <Grid item xs={12} className={classes.imgContainer}>
-          <img src={book.imgURL} className={classes.bookCover} alt="" />
+          <img src={book.cover_url} className={classes.bookCover} alt="" />
         </Grid>
       </a>
     </Grid>
@@ -50,22 +50,24 @@ const BookDetail = ({ book }) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={4} sm={2} md={6}>
+    <Grid item xs={4} sm={2} md={6} style={{ height: 250}}>
       <a href={'/#/books/' + book.id} style={{ textDecoration: 'none' }}>
         <Card className={classes.bookBox}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={3} className={classes.imgContainer}>
-              <img src={book.imgURL} className={classes.bookCover} alt="" />
+              <img src={book.cover_url} className={classes.bookCover} alt="" />
             </Grid>
             <Grid item container md={9}>
               <Grid item xs={12}>
                 <h3>{book.title}</h3>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <p>
                   <strong>Author: </strong>
-                  {book.author.name}
+                  {book.authors}
                 </p>
+              </Grid>
+              <Grid item xs={6}>
                 <p>
                   <strong>Genre: </strong>
                   {book.genre}
@@ -89,61 +91,25 @@ const BookDetail = ({ book }) => {
 };
 
 const Books = () => {
-  const [books, setBooks] = React.useState([
-    {
-      id: 1,
-      title: 'The Fellowship of the Ring',
-      author: { id: 1, name: 'J.R.R. Tolkien' },
-      genre: 'Fantasy',
-      series: 'The Lord of the Rings',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1176174220l/601134.jpg',
-    },
-    {
-      id: 2,
-      title: 'Wuthering Heights',
-      author: { id: 2, name: 'Emily Brontë' },
-      genre: 'Classic',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1479652582l/432394._SY475_.jpg',
-    },
-    {
-      id: 3,
-      title: 'The Two Towers',
-      author: { id: 1, name: 'J.R.R. Tolkien' },
-      genre: 'Fantasy',
-      series: 'The Lord of the Rings',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1300597697l/601135.jpg',
-    },
-    {
-      id: 4,
-      title: 'The Giver',
-      author: { id: 2, name: 'Lois Lowry' },
-      genre: 'Science Fiction',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1342493368l/3636.jpg',
-    },
-    {
-      id: 5,
-      title: 'Hush, Hush',
-      author: { id: 4, name: 'Becca Fitzpatrick' },
-      genre: 'Fantasy',
-      series: 'Hush, Hush',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1327882723l/7136307.jpg',
-    },
-    {
-      id: 6,
-      title: 'Dracula',
-      author: { id: 5, name: 'Bram Stoker' },
-      genre: 'Horror',
-      imgURL:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1314899782l/72485.jpg',
-    },
-  ]);
+  const [books, setBooks] = React.useState([]);
   const [filteredBooks, setFilteredBooks] = React.useState(sortBooks(books));
   const [onlyCovers, setOnlyCovers] = React.useState(true);
+
+  const fetchBookList = async () => {
+    let response = await fetch('http://localhost:8000/api/books/');
+    let json = await response.json();
+    return { success: true, data: json};
+  }
+
+  React.useEffect(() => {
+    (async () => {
+      let bookResponse = await fetchBookList();
+      if (bookResponse.success) {
+        setBooks(bookResponse.data);
+        setFilteredBooks(sortBooks(bookResponse.data))
+      }
+    })()
+  }, []);
 
   const handleCoverChange = (e) => {
     setOnlyCovers(e.target.checked);
