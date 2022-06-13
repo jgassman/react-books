@@ -64,7 +64,7 @@ const BookDetail = ({ book }) => {
               <Grid item xs={12}>
                 <p>
                   <strong>Author: </strong>
-                  {book.authors}
+                  {book.authors.map(author => `${author.first_name}${author.first_name ? " " : ""}${author.last_name}`)}
                 </p>
               </Grid>
               <Grid item xs={6}>
@@ -78,7 +78,7 @@ const BookDetail = ({ book }) => {
                 {book.series && (
                   <p>
                     <strong>Series: </strong>
-                    {book.series}
+                    {book.series.name}
                   </p>
                 )}
               </Grid>
